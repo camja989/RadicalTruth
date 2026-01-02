@@ -3,242 +3,256 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Radical Truth | New Zealand's Fearless News Source</title>
+    <title>Radical Truth | Free Knowledge for All New Zealanders</title>
+    <meta name="description" content="Breaking information asymmetry in New Zealand. Free access to knowledge in medicine, law, economics, and more. Empowering Kiwis with the information they deserve.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            overflow-x: hidden;
-        }
-
-        .container {
-            text-align: center;
-            padding: 2rem;
-            max-width: 800px;
-        }
-
-        .logo {
-            font-size: 4rem;
-            font-weight: 900;
-            letter-spacing: -2px;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, #ff4757 0%, #ff6b81 50%, #ffa502 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-transform: uppercase;
-        }
-
-        .tagline {
-            font-size: 1.2rem;
-            color: #888;
-            margin-bottom: 3rem;
-            font-weight: 400;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-        }
-
-        .badge {
-            display: inline-block;
-            background: rgba(255, 71, 87, 0.15);
-            border: 1px solid rgba(255, 71, 87, 0.3);
-            padding: 0.5rem 1.5rem;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #ff4757;
-            margin-bottom: 2rem;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
-        .main-message {
-            font-size: 2.5rem;
-            font-weight: 700;
-            line-height: 1.3;
-            margin-bottom: 1.5rem;
-        }
-
-        .main-message span {
-            color: #ff4757;
-        }
-
-        .description {
-            font-size: 1.1rem;
-            color: #aaa;
-            line-height: 1.8;
-            margin-bottom: 3rem;
-        }
-
-        .launch-info {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 2rem 3rem;
-            margin-bottom: 3rem;
-        }
-
-        .launch-label {
-            font-size: 0.85rem;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 0.5rem;
-        }
-
-        .launch-year {
-            font-size: 4rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, #ffa502 0%, #ff6b81 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .nz-flag {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            color: #666;
-            font-size: 0.9rem;
-            margin-top: 2rem;
-        }
-
-        .nz-flag svg {
-            width: 24px;
-            height: 16px;
-        }
-
-        .divider {
-            width: 60px;
-            height: 3px;
-            background: linear-gradient(90deg, #ff4757, #ffa502);
-            margin: 2rem auto;
-            border-radius: 2px;
-        }
-
-        .footer {
-            position: absolute;
-            bottom: 2rem;
-            color: #444;
-            font-size: 0.85rem;
-        }
-
-        /* Decorative elements */
-        .glow {
-            position: fixed;
-            width: 400px;
-            height: 400px;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.15;
-            pointer-events: none;
-        }
-
-        .glow-1 {
-            background: #ff4757;
-            top: -100px;
-            right: -100px;
-        }
-
-        .glow-2 {
-            background: #ffa502;
-            bottom: -100px;
-            left: -100px;
-        }
-
-        @media (max-width: 768px) {
-            .logo {
-                font-size: 2.5rem;
-            }
-
-            .main-message {
-                font-size: 1.8rem;
-            }
-
-            .launch-year {
-                font-size: 3rem;
-            }
-
-            .tagline {
-                font-size: 0.9rem;
-                letter-spacing: 2px;
-            }
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div class="glow glow-1"></div>
     <div class="glow glow-2"></div>
-    
-    <div class="container">
-        <div class="logo">Radical Truth</div>
-        <div class="tagline">New Zealand's Fearless News Source</div>
-        
-        <div class="badge">🚧 Currently Under Construction</div>
-        
-        <h1 class="main-message">
-            Something <span>bold</span> is coming
-        </h1>
-        
-        <p class="description">
-            We're building a new kind of news platform for New Zealand — 
-            one that prioritises truth, transparency, and fearless journalism. 
-            No spin. No agenda. Just the facts that matter to Kiwis.
+
+    <!-- Disclaimer Banner -->
+    <div class="disclaimer-banner">
+        <span class="warning-icon">⚠️</span>
+        <strong>IMPORTANT:</strong> This website is under active construction. Content is created with AI assistance and may contain inaccuracies. 
+        Always verify information independently and use critical thinking. We strive to provide sources where possible.
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">Radical Truth</a>
+            <div class="nav-toggle" onclick="toggleNav()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="pages/about.html">About</a></li>
+                <li><a href="pages/philosophy.html">Philosophy</a></li>
+                <li><a href="pages/medicine.html">Medicine</a></li>
+                <li><a href="pages/law.html">Law</a></li>
+                <li><a href="pages/economics.html">Economics</a></li>
+                <li><a href="pages/consumer-rights.html">Consumer Rights</a></li>
+                <li><a href="pages/education.html">Education</a></li>
+                <li><a href="pages/politicians.html">Politicians</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-badge">🚧 Launching 2027 — Currently Building</div>
+        <h1>Breaking <span>Information Asymmetry</span> in New Zealand</h1>
+        <p class="hero-description">
+            A free, open encyclopedia of knowledge designed to empower every New Zealander. 
+            Learn what doctors know. Understand the law. Master economics. 
+            Knowledge should never be gatekept by the privileged few.
         </p>
-        
-        <div class="launch-info">
-            <div class="launch-label">Expected Launch</div>
+        <div class="launch-box">
+            <div class="launch-label">Expected Full Launch</div>
             <div class="launch-year">2027</div>
         </div>
-        
-        <div class="divider"></div>
-        
-        <div class="nz-flag">
-            <svg viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="36" height="24" fill="#00247D"/>
-                <path d="M0 0L14.4 8H0V0Z" fill="#CF142B"/>
-                <path d="M0 0V3L10.8 8H14.4L0 0Z" fill="#FFF"/>
-                <path d="M0 8V5L7.2 8H0Z" fill="#FFF"/>
-                <path d="M14.4 0H10.8L0 5V8H3.6L14.4 3V0Z" fill="#FFF"/>
-                <path d="M14.4 0V3L3.6 8H0L14.4 0Z" fill="#CF142B"/>
-                <path d="M6 0V8H8.4V0H6Z" fill="#FFF"/>
-                <path d="M0 2.67V5.33H14.4V2.67H0Z" fill="#FFF"/>
-                <path d="M6.6 0V8H7.8V0H6.6Z" fill="#CF142B"/>
-                <path d="M0 3.2V4.8H14.4V3.2H0Z" fill="#CF142B"/>
-                <!-- Stars -->
-                <circle cx="28" cy="6" r="1.5" fill="#CF142B"/>
-                <circle cx="32" cy="10" r="1.2" fill="#CF142B"/>
-                <circle cx="28" cy="15" r="1.3" fill="#CF142B"/>
-                <circle cx="24" cy="11" r="1.1" fill="#CF142B"/>
-            </svg>
-            <span>Made for Aotearoa New Zealand</span>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="mission">
+        <div class="mission-container">
+            <h2 class="section-title">Our Mission</h2>
+            <p class="section-subtitle">
+                We believe knowledge is power — and that power should belong to everyone, not just those who can afford it.
+            </p>
+            <div class="mission-grid">
+                <div class="mission-card">
+                    <div class="mission-icon">⚖️</div>
+                    <h3>End Information Asymmetry</h3>
+                    <p>When consumers don't have the same information as corporations and professionals, they can't make informed decisions. We're changing that.</p>
+                </div>
+                <div class="mission-card">
+                    <div class="mission-icon">🎓</div>
+                    <h3>Democratise Education</h3>
+                    <p>Universities shouldn't have a monopoly on knowledge. Professional-level education should be freely accessible to all New Zealanders.</p>
+                </div>
+                <div class="mission-card">
+                    <div class="mission-icon">🔍</div>
+                    <h3>Promote Transparency</h3>
+                    <p>Like a private Commerce Commission, we aim to shine a light on practices that exploit the information gap between institutions and individuals.</p>
+                </div>
+                <div class="mission-card">
+                    <div class="mission-icon">🛡️</div>
+                    <h3>Protect Consumers</h3>
+                    <p>Armed with knowledge, New Zealanders can protect themselves from predatory practices, make better decisions, and advocate for their rights.</p>
+                </div>
+                <div class="mission-card">
+                    <div class="mission-icon">📚</div>
+                    <h3>Source Everything</h3>
+                    <p>We strive to cite our sources and link to original materials so you can verify information and dive deeper into topics.</p>
+                </div>
+                <div class="mission-card">
+                    <div class="mission-icon">🤔</div>
+                    <h3>Encourage Critical Thinking</h3>
+                    <p>We don't want blind trust. We want informed citizens who question, verify, and think critically about all information — including ours.</p>
+                </div>
+            </div>
         </div>
-    </div>
-    
+    </section>
+
+    <!-- Knowledge Categories -->
+    <section class="categories">
+        <div class="categories-container">
+            <h2 class="section-title">Knowledge Library</h2>
+            <p class="section-subtitle">
+                Explore our growing collection of free educational resources across essential disciplines.
+            </p>
+            <div class="category-grid">
+                <a href="pages/philosophy.html" class="category-card" style="border: 2px solid #8b5cf6;">
+                    <div class="category-icon">🏛️</div>
+                    <div class="category-info">
+                        <h3>Philosophy & Critical Thinking</h3>
+                        <p>The foundation: learn to think for yourself</p>
+                    </div>
+                    <span class="category-status" style="background: linear-gradient(135deg, #8b5cf6, #3b82f6); color: white;">Core Pillar</span>
+                </a>
+                <a href="pages/medicine.html" class="category-card">
+                    <div class="category-icon">🏥</div>
+                    <div class="category-info">
+                        <h3>Medicine & Health</h3>
+                        <p>Medical knowledge explained clearly</p>
+                    </div>
+                    <span class="category-status status-building">Building</span>
+                </a>
+                <a href="pages/law.html" class="category-card">
+                    <div class="category-icon">⚖️</div>
+                    <div class="category-info">
+                        <h3>Law & Legal Rights</h3>
+                        <p>Understand NZ law and your rights</p>
+                    </div>
+                    <span class="category-status status-building">Building</span>
+                </a>
+                <a href="pages/economics.html" class="category-card">
+                    <div class="category-icon">📈</div>
+                    <div class="category-info">
+                        <h3>Economics & Finance</h3>
+                        <p>Financial literacy for everyone</p>
+                    </div>
+                    <span class="category-status status-building">Building</span>
+                </a>
+                <a href="pages/consumer-rights.html" class="category-card">
+                    <div class="category-icon">🛒</div>
+                    <div class="category-info">
+                        <h3>Consumer Rights</h3>
+                        <p>Know your rights as a consumer</p>
+                    </div>
+                    <span class="category-status status-building">Building</span>
+                </a>
+                <a href="pages/education.html" class="category-card">
+                    <div class="category-icon">🎓</div>
+                    <div class="category-info">
+                        <h3>Education System</h3>
+                        <p>Navigate NZ's education landscape</p>
+                    </div>
+                    <span class="category-status status-building">Building</span>
+                </a>
+                <a href="#" class="category-card">
+                    <div class="category-icon">🏠</div>
+                    <div class="category-info">
+                        <h3>Housing & Property</h3>
+                        <p>Tenants' rights and property law</p>
+                    </div>
+                    <span class="category-status status-planned">Planned</span>
+                </a>
+                <a href="#" class="category-card">
+                    <div class="category-icon">💼</div>
+                    <div class="category-info">
+                        <h3>Employment</h3>
+                        <p>Workers' rights and employment law</p>
+                    </div>
+                    <span class="category-status status-planned">Planned</span>
+                </a>
+                <a href="#" class="category-card">
+                    <div class="category-icon">🏛️</div>
+                    <div class="category-info">
+                        <h3>Government & Politics</h3>
+                        <p>How NZ's democracy works</p>
+                    </div>
+                    <span class="category-status status-planned">Planned</span>
+                </a>
+                <a href="#" class="category-card">
+                    <div class="category-icon">🌿</div>
+                    <div class="category-info">
+                        <h3>Environment</h3>
+                        <p>Environmental rights and science</p>
+                    </div>
+                    <span class="category-status status-planned">Planned</span>
+                </a>
+                <a href="pages/politicians.html" class="category-card">
+                    <div class="category-icon">🏛️</div>
+                    <div class="category-info">
+                        <h3>Politician Cards</h3>
+                        <p>Merit-based ratings of NZ MPs</p>
+                    </div>
+                    <span class="category-status status-building">Building</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
     <footer class="footer">
-        © 2025 Radical Truth. All rights reserved.
+        <div class="footer-container">
+            <div class="footer-section">
+                <h4>Knowledge Areas</h4>
+                <ul>
+                    <li><a href="pages/medicine.html">Medicine & Health</a></li>
+                    <li><a href="pages/law.html">Law & Legal Rights</a></li>
+                    <li><a href="pages/economics.html">Economics & Finance</a></li>
+                    <li><a href="pages/consumer-rights.html">Consumer Rights</a></li>
+                    <li><a href="pages/education.html">Education</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>About</h4>
+                <ul>
+                    <li><a href="pages/about.html">Our Mission</a></li>
+                    <li><a href="pages/about.html#disclaimer">Disclaimer</a></li>
+                    <li><a href="pages/about.html#sources">Our Sources</a></li>
+                    <li><a href="pages/about.html#contribute">Contribute</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="https://comcom.govt.nz" target="_blank">Commerce Commission NZ</a></li>
+                    <li><a href="https://www.consumerprotection.govt.nz" target="_blank">Consumer Protection</a></li>
+                    <li><a href="https://www.legislation.govt.nz" target="_blank">NZ Legislation</a></li>
+                    <li><a href="https://www.health.govt.nz" target="_blank">Ministry of Health</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Important Notice</h4>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">
+                    This site is under construction and uses AI assistance. 
+                    Information may be incomplete or inaccurate. Always verify 
+                    critical information with official sources.
+                </p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div>
+                <span class="footer-logo">Radical Truth</span> — Made for Aotearoa New Zealand 🇳🇿
+            </div>
+            <div>© 2026 Radical Truth. Free knowledge for all.</div>
+        </div>
     </footer>
+
+    <script>
+        function toggleNav() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+    </script>
 </body>
 </html>

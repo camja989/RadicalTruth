@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Philosophy & Critical Thinking | Radical Truth</title>
+    <meta name="description" content="Learn to think for yourself. Greek philosophy, ethics, logic, and critical thinking skills to make better decisions.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* Philosophy Page Specific Styles */
+        .philosophy-hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1));
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+            margin-bottom: 3rem;
+        }
+
+        .philosophy-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .philosophy-hero .subtitle {
+            font-size: 1.5rem;
+            color: #a78bfa;
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        .pillar-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+        }
+
+        .philosopher-quote {
+            background: rgba(139, 92, 246, 0.1);
+            border-left: 4px solid #8b5cf6;
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+            font-style: italic;
+            font-size: 1.1rem;
+        }
+
+        .philosopher-quote cite {
+            display: block;
+            margin-top: 0.75rem;
+            font-style: normal;
+            font-weight: 600;
+            color: #a78bfa;
+        }
+
+        /* Thinking Test Styles */
+        .thinking-test {
+            background: var(--card-bg);
+            border: 2px solid rgba(139, 92, 246, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .test-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .test-icon {
+            font-size: 2rem;
+        }
+
+        .test-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .test-difficulty {
+            margin-left: auto;
+            font-size: 0.8rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            background: rgba(139, 92, 246, 0.2);
+            color: #a78bfa;
+        }
+
+        .scenario {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .option-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            text-align: left;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .option-btn:hover {
+            background: rgba(139, 92, 246, 0.1);
+            border-color: rgba(139, 92, 246, 0.3);
+            color: var(--text-primary);
+        }
+
+        .option-btn.selected {
+            background: rgba(139, 92, 246, 0.2);
+            border-color: #8b5cf6;
+            color: var(--text-primary);
+        }
+
+        .reflection-prompt {
+            display: none;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1));
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .reflection-prompt.visible {
+            display: block;
+        }
+
+        .reflection-prompt h4 {
+            color: #a78bfa;
+            margin-bottom: 1rem;
+        }
+
+        .reveal-btn {
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .reveal-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .no-right-answer {
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .no-right-answer strong {
+            color: #fbbf24;
+        }
+
+        /* Philosopher Cards */
+        .philosopher-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .philosopher-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .philosopher-card:hover {
+            border-color: rgba(139, 92, 246, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .philosopher-card h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .philosopher-card .dates {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+        }
+
+        .philosopher-card .key-idea {
+            font-size: 0.95rem;
+            color: #a78bfa;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .philosopher-card p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Fallacy List */
+        .fallacy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .fallacy-card {
+            background: rgba(239, 68, 68, 0.05);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 8px;
+            padding: 1.25rem;
+        }
+
+        .fallacy-card h4 {
+            color: #f87171;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .fallacy-card .example {
+            font-style: italic;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid rgba(239, 68, 68, 0.1);
+        }
+
+        /* Virtue grid */
+        .virtue-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .virtue-card {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .virtue-card h4 {
+            color: #34d399;
+            margin-bottom: 0.5rem;
+        }
+
+        .virtue-card .greek {
+            font-style: italic;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <!-- Disclaimer Banner -->
+    <div class="disclaimer-banner">
+        <span class="warning-icon">⚠️</span>
+        <strong>IMPORTANT:</strong> This website is under active construction. Content is created with AI assistance and may contain inaccuracies. 
+        Always verify information independently and use critical thinking. We strive to provide sources where possible.
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">Radical Truth</a>
+            <div class="nav-toggle" onclick="toggleNav()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="philosophy.html" class="active">Philosophy</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="medicine.html">Medicine</a></li>
+                <li><a href="law.html">Law</a></li>
+                <li><a href="economics.html">Economics</a></li>
+                <li><a href="politicians.html">Politicians</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Philosophy Hero -->
+    <section class="philosophy-hero">
+        <div class="pillar-badge">🏛️ Core Pillar</div>
+        <h1>Philosophy & Critical Thinking</h1>
+        <p class="subtitle">"The unexamined life is not worth living"</p>
+        <p style="max-width: 700px; margin: 0 auto; color: var(--text-secondary);">
+            Before you can find truth, you must learn to think. This is the foundation of everything 
+            else on this site — the tools to reason clearly, question everything (including us), 
+            and make decisions for yourself.
+        </p>
+    </section>
+
+    <!-- Page Content -->
+    <main class="page-content" style="max-width: 1000px;">
+
+        <div class="philosopher-quote">
+            "I cannot teach anybody anything. I can only make them think."
+            <cite>— Socrates</cite>
+        </div>
+
+        <section class="content-section">
+            <h2>Why Philosophy First?</h2>
+            <p>
+                Everything else on this website — medicine, law, economics, politics — is useless if you 
+                can't <strong>think for yourself</strong>. You can memorise facts, but if you can't evaluate 
+                them critically, you're just trading one authority for another.
+            </p>
+            <p>
+                The ancient Greeks understood this. They didn't just ask "what should I believe?" but 
+                "how should I think?" Philosophy isn't about having the right answers — it's about 
+                asking the right questions and developing the intellectual tools to find your own answers.
+            </p>
+            <p>
+                <strong>Our goal:</strong> Not to tell you what to think, but to help you think better. 
+                We want you to disagree with us — intelligently, after careful reflection.
+            </p>
+        </section>
+
+        <!-- Thinking Test 1 -->
+        <div class="thinking-test" id="test1">
+            <div class="test-header">
+                <span class="test-icon">🤔</span>
+                <span class="test-title">Thinking Test #1: The Trolley Problem</span>
+                <span class="test-difficulty">Classic Dilemma</span>
+            </div>
+            <div class="scenario">
+                <p>A runaway trolley is heading towards five people tied to the tracks. They will die if the trolley continues. 
+                You are standing next to a lever that can divert the trolley to a side track, where only one person is tied.</p>
+                <p><strong>Do you pull the lever, killing one person to save five?</strong></p>
+            </div>
+            <div class="options" id="options1">
+                <button class="option-btn" onclick="selectOption(1, this, 'pull')">
+                    <strong>Pull the lever.</strong> Five lives are worth more than one. It's simple mathematics.
+                </button>
+                <button class="option-btn" onclick="selectOption(1, this, 'dont')">
+                    <strong>Don't pull the lever.</strong> Actively killing someone is different from letting people die.
+                </button>
+                <button class="option-btn" onclick="selectOption(1, this, 'refuse')">
+                    <strong>Refuse to choose.</strong> The scenario is too artificial — real life doesn't work this way.
+                </button>
+            </div>
+            <button class="reveal-btn" onclick="revealReflection(1)">Reveal Reflection</button>
+            <div class="reflection-prompt" id="reflection1">
+                <h4>🔍 Points to Consider:</h4>
+                <p><strong>There is no "right" answer.</strong> This dilemma reveals the tension between two ethical frameworks:</p>
+                <ul style="color: var(--text-secondary); margin: 1rem 0;">
+                    <li><strong>Consequentialism:</strong> Actions are judged by their outcomes. 5 > 1, so pull the lever.</li>
+                    <li><strong>Deontology:</strong> Some actions are inherently wrong regardless of outcome. Actively killing is wrong even to save more.</li>
+                </ul>
+                <p><strong>The real question:</strong> Why did you choose what you chose? Can you articulate your moral reasoning? 
+                If you can't explain <em>why</em> you believe something is right or wrong, do you actually believe it — or are you just reacting?</p>
+                <p>Now consider: <em>Would your answer change if the one person was a child? A criminal? Your mother? A stranger vs. your friend?</em> 
+                If your answer changes, what does that reveal about your actual moral framework?</p>
+                <div class="no-right-answer">
+                    <strong>Note:</strong> If you picked option C — that's valid too. Sometimes the wise move is to reject false dichotomies. 
+                    But be careful: refusing to engage can also be a way of avoiding difficult thinking.
+                </div>
+            </div>
+        </div>
+
+        <!-- Thinking Test 2 -->
+        <div class="thinking-test" id="test2">
+            <div class="test-header">
+                <span class="test-icon">⚖️</span>
+                <span class="test-title">Thinking Test #2: The Lifeboat</span>
+                <span class="test-difficulty">Resource Allocation</span>
+            </div>
+            <div class="scenario">
+                <p>A ship is sinking. The lifeboat can hold 10 people safely, but there are 15 survivors. 
+                If all 15 get in, the boat will sink and everyone dies.</p>
+                <p>The survivors include: a doctor, a pregnant woman, a convicted murderer who served their time, 
+                an elderly scientist who discovered a cure for a disease, two children, a wealthy businessman, 
+                a homeless person, and several others.</p>
+                <p><strong>How do you decide who gets on the lifeboat?</strong></p>
+            </div>
+            <div class="options" id="options2">
+                <button class="option-btn" onclick="selectOption(2, this, 'utility')">
+                    <strong>Maximise utility.</strong> Prioritise those who will contribute most to society (doctor, scientist, etc.)
+                </button>
+                <button class="option-btn" onclick="selectOption(2, this, 'lottery')">
+                    <strong>Random lottery.</strong> Every human life is equal. Draw straws — it's the only fair way.
+                </button>
+                <button class="option-btn" onclick="selectOption(2, this, 'vulnerable')">
+                    <strong>Protect the vulnerable.</strong> Children and pregnant woman first, regardless of "usefulness."
+                </button>
+                <button class="option-btn" onclick="selectOption(2, this, 'refuse2')">
+                    <strong>Refuse to play God.</strong> No person has the right to decide who lives and dies.
+                </button>
+            </div>
+            <button class="reveal-btn" onclick="revealReflection(2)">Reveal Reflection</button>
+            <div class="reflection-prompt" id="reflection2">
+                <h4>🔍 Points to Consider:</h4>
+                <p>Each option reflects different values:</p>
+                <ul style="color: var(--text-secondary); margin: 1rem 0;">
+                    <li><strong>Utility:</strong> Values people based on social contribution. But who decides what's "valuable"?</li>
+                    <li><strong>Lottery:</strong> Treats all life as equal. But is it moral to let chance decide life and death?</li>
+                    <li><strong>Vulnerability:</strong> Prioritises protection of the weak. But is a child's life worth more than an adult's?</li>
+                    <li><strong>Refusal:</strong> Maintains moral purity. But inaction is still a choice with consequences.</li>
+                </ul>
+                <p><strong>Notice:</strong> Did you make quick judgments about the "murderer" or "homeless person"? 
+                The scenario gave you minimal information, yet your brain likely made instant assessments. 
+                This is how bias works — we judge on limited data while believing we're being rational.</p>
+                <p><strong>The real test:</strong> Whatever you chose, could you look into the eyes of the five 
+                people left behind and explain why they didn't make the cut?</p>
+            </div>
+        </div>
+
+        <!-- Thinking Test 3 -->
+        <div class="thinking-test" id="test3">
+            <div class="test-header">
+                <span class="test-icon">🗣️</span>
+                <span class="test-title">Thinking Test #3: The Truth Dilemma</span>
+                <span class="test-difficulty">Ethics in Practice</span>
+            </div>
+            <div class="scenario">
+                <p>Your elderly grandmother is dying of cancer. She has weeks to live. She asks you directly: 
+                "Am I going to be okay?"</p>
+                <p>The doctors have told you she will not survive. Your grandmother values honesty above almost 
+                everything else — she's told you many times that she hates being lied to. But she's also 
+                terrified of death and knowing might rob her of her remaining peaceful days.</p>
+                <p><strong>Do you tell her the truth?</strong></p>
+            </div>
+            <div class="options" id="options3">
+                <button class="option-btn" onclick="selectOption(3, this, 'truth')">
+                    <strong>Tell the truth.</strong> She values honesty, and she deserves to know. It's her life.
+                </button>
+                <button class="option-btn" onclick="selectOption(3, this, 'lie')">
+                    <strong>Lie to protect her.</strong> Her remaining time should be peaceful, not filled with fear.
+                </button>
+                <button class="option-btn" onclick="selectOption(3, this, 'evade')">
+                    <strong>Evade the question.</strong> Change the subject, give a non-answer like "Let's focus on today."
+                </button>
+                <button class="option-btn" onclick="selectOption(3, this, 'ask')">
+                    <strong>Ask what she really wants.</strong> "Do you want me to tell you honestly, no matter what?"
+                </button>
+            </div>
+            <button class="reveal-btn" onclick="revealReflection(3)">Reveal Reflection</button>
+            <div class="reflection-prompt" id="reflection3">
+                <h4>🔍 Points to Consider:</h4>
+                <p>This tests the tension between <strong>truth</strong> and <strong>compassion</strong>:</p>
+                <ul style="color: var(--text-secondary); margin: 1rem 0;">
+                    <li><strong>Radical honesty:</strong> Truth is sacred. Deceiving someone, even kindly, disrespects their autonomy.</li>
+                    <li><strong>Protective deception:</strong> Sometimes love means protecting people from harm, even from the truth.</li>
+                    <li><strong>Evasion:</strong> Technically not lying — but is withholding truth different from lying?</li>
+                    <li><strong>Asking:</strong> Respects her autonomy by letting her choose. But are you just avoiding responsibility?</li>
+                </ul>
+                <p><strong>The deeper question:</strong> Is truth always the highest value? Are there times when 
+                other values (compassion, peace, kindness) should take precedence? Or is that just rationalising deception?</p>
+                <p><strong>Notice:</strong> This scenario is personal. Your answer might be different if it was 
+                a stranger instead of your grandmother. What does that inconsistency reveal?</p>
+            </div>
+        </div>
+
+        <section class="content-section">
+            <h2>The Foundation: Greek Philosophy</h2>
+            <p>
+                The ancient Greeks invented Western philosophy. They asked the fundamental questions 
+                that still shape how we think today. Here are the thinkers you should know:
+            </p>
+
+            <div class="philosopher-grid">
+                <div class="philosopher-card">
+                    <h4>Socrates</h4>
+                    <div class="dates">470-399 BCE</div>
+                    <div class="key-idea">"I know that I know nothing"</div>
+                    <p>The father of Western philosophy. Never wrote anything down. Known for the "Socratic method" — 
+                    asking questions to expose contradictions in people's beliefs. Was executed for "corrupting the youth" 
+                    by teaching them to question everything.</p>
+                </div>
+                <div class="philosopher-card">
+                    <h4>Plato</h4>
+                    <div class="dates">428-348 BCE</div>
+                    <div class="key-idea">Theory of Forms</div>
+                    <p>Socrates' student. Founded the Academy, the first university. Believed in a realm of perfect 
+                    "Forms" behind our imperfect reality. His dialogues are the main source of Socratic philosophy. 
+                    Explored justice, beauty, and the ideal state in "The Republic."</p>
+                </div>
+                <div class="philosopher-card">
+                    <h4>Aristotle</h4>
+                    <div class="dates">384-322 BCE</div>
+                    <div class="key-idea">Virtue Ethics & Logic</div>
+                    <p>Plato's student, Alexander the Great's tutor. Created formal logic. Believed virtue is 
+                    found in the "golden mean" between extremes. Wrote on everything: ethics, politics, biology, 
+                    physics, metaphysics. The most influential philosopher in history.</p>
+                </div>
+                <div class="philosopher-card">
+                    <h4>Epicurus</h4>
+                    <div class="dates">341-270 BCE</div>
+                    <div class="key-idea">Pleasure is the highest good</div>
+                    <p>Often misunderstood. Didn't advocate hedonism — taught that the highest pleasure is 
+                    tranquility (ataraxia) through moderation, friendship, and freedom from fear. 
+                    "Death is nothing to us."</p>
+                </div>
+                <div class="philosopher-card">
+                    <h4>The Stoics</h4>
+                    <div class="dates">Zeno, Seneca, Epictetus, Marcus Aurelius</div>
+                    <div class="key-idea">"Control what you can, accept what you can't"</div>
+                    <p>Focused on personal virtue and resilience. Distinguished between what's in our control 
+                    (our reactions) and what isn't (external events). Heavily influenced modern cognitive therapy. 
+                    Marcus Aurelius ruled the Roman Empire while practising Stoic principles.</p>
+                </div>
+                <div class="philosopher-card">
+                    <h4>Diogenes</h4>
+                    <div class="dates">412-323 BCE</div>
+                    <div class="key-idea">Cynicism — reject social conventions</div>
+                    <p>Lived in a barrel, owned nothing. Mocked Alexander the Great, Plato, and all authority. 
+                    Carried a lamp in daylight "looking for an honest man." A reminder that philosophy 
+                    can be radical and uncomfortable.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>Aristotle's Virtues</h2>
+            <p>
+                Aristotle taught that virtue is the "golden mean" between two vices — one of excess and 
+                one of deficiency. Good character isn't about rules; it's about developing the right 
+                dispositions through practice.
+            </p>
+
+            <div class="virtue-grid">
+                <div class="virtue-card">
+                    <h4>Courage</h4>
+                    <div class="greek">andreia</div>
+                    <p>Between recklessness and cowardice</p>
+                </div>
+                <div class="virtue-card">
+                    <h4>Temperance</h4>
+                    <div class="greek">sophrosyne</div>
+                    <p>Between self-indulgence and insensibility</p>
+                </div>
+                <div class="virtue-card">
+                    <h4>Justice</h4>
+                    <div class="greek">dikaiosyne</div>
+                    <p>Giving each what they're due</p>
+                </div>
+                <div class="virtue-card">
+                    <h4>Prudence</h4>
+                    <div class="greek">phronesis</div>
+                    <p>Practical wisdom — knowing how to act</p>
+                </div>
+                <div class="virtue-card">
+                    <h4>Generosity</h4>
+                    <div class="greek">eleutheriotēs</div>
+                    <p>Between stinginess and wastefulness</p>
+                </div>
+                <div class="virtue-card">
+                    <h4>Truthfulness</h4>
+                    <div class="greek">aletheia</div>
+                    <p>Between boastfulness and self-deprecation</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>Logical Fallacies: Errors to Avoid</h2>
+            <p>
+                A logical fallacy is an error in reasoning that undermines an argument. Learning to 
+                spot these — in others' arguments and your own — is essential for clear thinking. 
+                Politicians, advertisers, and media use these constantly.
+            </p>
+
+            <div class="fallacy-grid">
+                <div class="fallacy-card">
+                    <h4>Ad Hominem</h4>
+                    <p>Attacking the person instead of their argument.</p>
+                    <div class="example">"You can't trust his climate research — he's funded by environmental groups."</div>
+                </div>
+                <div class="fallacy-card">
+                    <h4>Straw Man</h4>
+                    <p>Misrepresenting someone's argument to make it easier to attack.</p>
+                    <div class="example">"You want some gun control? So you want to ban all guns and leave people defenceless!"</div>
+                </div>
+                <div class="fallacy-card">
+                    <h4>Appeal to Authority</h4>
+                    <p>Claiming something is true because an authority figure said it.</p>
+                    <div class="example">"This celebrity says vaccines are dangerous, so they must be."</div>
+                </div>
+                <div class="fallacy-card">
+                    <h4>False Dichotomy</h4>
+                    <p>Presenting only two options when more exist.</p>
+                    <div class="example">"You're either with us or against us."</div>
+                </div>
+                <div class="fallacy-card">
+                    <h4>Slippery Slope</h4>
+                    <p>Claiming one thing will inevitably lead to extreme consequences without evidence.</p>
+                    <div class="example">"If we allow this, next thing you know, we'll have total chaos."</div>
+                </div>
+                <div class="fallacy-card">
+                    <h4>Appeal to Tradition</h4>
+                    <p>Arguing something is right because "it's always been done this way."</p>
+                    <div class="example">"We've always done it this way, so we shouldn't change."</div>
+                </div>
+                <div class="fallacy-card">
+                    <h4>Bandwagon</h4>
+                    <p>Arguing something is true or good because many people believe it.</p>
+                    <div class="example">"Everyone's buying it — it must be good!"</div>
+                </div>
+                <div class="fallacy-card">
+                    <h4>Confirmation Bias</h4>
+                    <p>Seeking information that confirms existing beliefs while ignoring contradicting evidence.</p>
+                    <div class="example">Only reading news sources that agree with your political views.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>How to Think Critically</h2>
+            <p>Critical thinking isn't a talent — it's a skill that can be developed. Here's a framework:</p>
+
+            <h3>1. Question Your Sources</h3>
+            <ul>
+                <li>Who is saying this? What's their motivation?</li>
+                <li>What evidence supports this claim?</li>
+                <li>Is this primary evidence or someone's interpretation?</li>
+                <li>What are they NOT telling you?</li>
+            </ul>
+
+            <h3>2. Examine Your Own Biases</h3>
+            <ul>
+                <li>Why do I want to believe this?</li>
+                <li>Am I seeking evidence or confirmation?</li>
+                <li>Would I accept this argument if it came from the "other side"?</li>
+                <li>What would change my mind?</li>
+            </ul>
+
+            <h3>3. Consider Alternative Explanations</h3>
+            <ul>
+                <li>Is there another way to interpret this data?</li>
+                <li>Could there be causes I haven't considered?</li>
+                <li>What would someone who disagrees say?</li>
+            </ul>
+
+            <h3>4. Be Comfortable with Uncertainty</h3>
+            <ul>
+                <li>Not everything has a clear answer</li>
+                <li>"I don't know" is an intellectually honest position</li>
+                <li>Changing your mind when presented with evidence is strength, not weakness</li>
+            </ul>
+
+            <div class="philosopher-quote">
+                "It is the mark of an educated mind to be able to entertain a thought without accepting it."
+                <cite>— Aristotle</cite>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>The Ultimate Test: Think For Yourself</h2>
+            <p>
+                We've given you dilemmas, philosophers, and frameworks. But here's the most important thing:
+            </p>
+            <div class="info-box" style="background: rgba(139, 92, 246, 0.1); border-color: #8b5cf6;">
+                <h4 style="color: #a78bfa;">Don't Trust This Website Blindly</h4>
+                <p>
+                    Everything on Radical Truth — including this page — could be wrong. We use AI assistance. 
+                    We have biases we might not even recognise. We might present information in ways that 
+                    subtly shape your thinking.
+                </p>
+                <p style="margin-top: 1rem;">
+                    <strong>The best thing you can do is disagree with us.</strong> Find our errors. Check our 
+                    sources. Develop your own positions. The moment you accept something because we said it, 
+                    you've failed the test of critical thinking.
+                </p>
+                <p style="margin-top: 1rem;">
+                    <em>That's the point of this entire website: not to give you truth, but to give you 
+                    the tools to find it yourself.</em>
+                </p>
+            </div>
+        </section>
+
+        <div class="source-box">
+            <h4>Sources & Further Reading</h4>
+            <ul>
+                <li><a href="https://plato.stanford.edu" target="_blank">Stanford Encyclopedia of Philosophy</a> — Authoritative philosophy resource</li>
+                <li><a href="https://www.gutenberg.org/ebooks/author/947" target="_blank">Project Gutenberg: Plato</a> — Free complete works of Plato</li>
+                <li><a href="https://www.gutenberg.org/ebooks/author/2747" target="_blank">Project Gutenberg: Aristotle</a> — Free complete works of Aristotle</li>
+                <li><a href="https://dailystoic.com" target="_blank">Daily Stoic</a> — Accessible Stoic philosophy</li>
+                <li><a href="https://yourlogicalfallacyis.com" target="_blank">Your Logical Fallacy Is</a> — Fallacy reference guide</li>
+                <li><strong>Books:</strong> "Meditations" by Marcus Aurelius, "The Republic" by Plato, "Nicomachean Ethics" by Aristotle</li>
+            </ul>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h4>Knowledge Areas</h4>
+                <ul>
+                    <li><a href="philosophy.html">Philosophy & Thinking</a></li>
+                    <li><a href="medicine.html">Medicine & Health</a></li>
+                    <li><a href="law.html">Law & Legal Rights</a></li>
+                    <li><a href="economics.html">Economics & Finance</a></li>
+                    <li><a href="consumer-rights.html">Consumer Rights</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>About</h4>
+                <ul>
+                    <li><a href="about.html">Our Mission</a></li>
+                    <li><a href="about.html#disclaimer">Disclaimer</a></li>
+                    <li><a href="about.html#sources">Our Sources</a></li>
+                    <li><a href="about.html#contribute">Contribute</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="https://plato.stanford.edu" target="_blank">Stanford Encyclopedia</a></li>
+                    <li><a href="https://www.gutenberg.org" target="_blank">Project Gutenberg</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Important Notice</h4>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">
+                    This site is under construction and uses AI assistance. 
+                    Question everything — including us.
+                </p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div>
+                <span class="footer-logo">Radical Truth</span> — Made for Aotearoa New Zealand 🇳🇿
+            </div>
+            <div>© 2026 Radical Truth. Free knowledge for all.</div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleNav() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+
+        function selectOption(testNum, button, choice) {
+            const options = document.querySelectorAll(`#options${testNum} .option-btn`);
+            options.forEach(opt => opt.classList.remove('selected'));
+            button.classList.add('selected');
+        }
+
+        function revealReflection(testNum) {
+            const reflection = document.getElementById(`reflection${testNum}`);
+            reflection.classList.add('visible');
+        }
+    </script>
+</body>
+</html>

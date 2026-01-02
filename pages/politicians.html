@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Politician Cards | Radical Truth</title>
+    <meta name="description" content="NZ Politicians rated on merit and skill. Baseball card-style stats for New Zealand's elected representatives.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* Politician Cards Specific Styles */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .politician-card {
+            background: linear-gradient(145deg, rgba(20, 20, 40, 0.9), rgba(30, 30, 60, 0.9));
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .politician-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-header {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            position: relative;
+        }
+
+        .card-header.national {
+            background: linear-gradient(135deg, #00529F 0%, #0070C0 100%);
+        }
+
+        .card-header.labour {
+            background: linear-gradient(135deg, #D82C2C 0%, #FF4444 100%);
+        }
+
+        .card-header.greens {
+            background: linear-gradient(135deg, #098137 0%, #10A845 100%);
+        }
+
+        .card-header.act {
+            background: linear-gradient(135deg, #FDE000 0%, #FFE84D 100%);
+        }
+
+        .card-header.act .politician-name,
+        .card-header.act .politician-role {
+            color: #000;
+        }
+
+        .card-header.nzfirst {
+            background: linear-gradient(135deg, #000000 0%, #333333 100%);
+        }
+
+        .card-header.tpm {
+            background: linear-gradient(135deg, #B8002A 0%, #D4003B 100%);
+        }
+
+        .politician-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .politician-role {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .overall-score {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 900;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .card-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .card-info span {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .stats-section {
+            margin-top: 1rem;
+        }
+
+        .stat-row {
+            margin-bottom: 0.75rem;
+        }
+
+        .stat-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-name {
+            color: var(--text-secondary);
+        }
+
+        .stat-value {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .stat-bar {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .stat-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        .stat-fill.high {
+            background: linear-gradient(90deg, #10B981, #34D399);
+        }
+
+        .stat-fill.medium {
+            background: linear-gradient(90deg, #F59E0B, #FBBF24);
+        }
+
+        .stat-fill.low {
+            background: linear-gradient(90deg, #EF4444, #F87171);
+        }
+
+        .party-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 2rem 0;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .methodology-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .methodology-box h3 {
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .stat-explanation {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .stat-explain-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .stat-explain-item h4 {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .stat-explain-item p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <!-- Disclaimer Banner -->
+    <div class="disclaimer-banner">
+        <span class="warning-icon">⚠️</span>
+        <strong>IMPORTANT:</strong> This website is under active construction. Content is created with AI assistance and may contain inaccuracies. 
+        Always verify information independently and use critical thinking. We strive to provide sources where possible.
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">Radical Truth</a>
+            <div class="nav-toggle" onclick="toggleNav()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="philosophy.html">Philosophy</a></li>
+                <li><a href="medicine.html">Medicine</a></li>
+                <li><a href="law.html">Law</a></li>
+                <li><a href="economics.html">Economics</a></li>
+                <li><a href="consumer-rights.html">Consumer Rights</a></li>
+                <li><a href="education.html">Education</a></li>
+                <li><a href="politicians.html" class="active">Politicians</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <main class="page-content" style="max-width: 1200px;">
+        <header class="page-header">
+            <h1>🏛️ NZ Politician Cards</h1>
+            <p class="lead">
+                Baseball card-style profiles of New Zealand's politicians, rated purely on merit and 
+                demonstrated skills — not popularity, likability, or party affiliation. 
+                These ratings assess <em>competence</em>, not whether we agree with their policies.
+            </p>
+        </header>
+
+        <div class="info-box warning">
+            <h4>⚠️ Important Disclaimer</h4>
+            <p>
+                These ratings are <strong>illustrative and experimental</strong>. They are generated with AI assistance 
+                and based on publicly available information. Ratings attempt to be objective but inherently involve 
+                subjective judgement. <strong>Form your own opinions</strong> — use this as a starting point for research, 
+                not as definitive truth. We welcome feedback on methodology.
+            </p>
+        </div>
+
+        <!-- Methodology -->
+        <div class="methodology-box">
+            <h3>📊 Rating Methodology</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                Each politician is rated on six skill-based metrics. These focus on <strong>competence and effectiveness</strong>, 
+                not ideology or popularity. A politician you disagree with can still score highly if they're skilled at their job.
+            </p>
+            <div class="stat-explanation">
+                <div class="stat-explain-item">
+                    <h4>📋 Legislative Effectiveness</h4>
+                    <p>Track record of passing legislation, successful amendments, and achieving policy goals through parliament.</p>
+                </div>
+                <div class="stat-explain-item">
+                    <h4>🎯 Policy Expertise</h4>
+                    <p>Depth of knowledge in their portfolio areas. Do they understand the details or just talking points?</p>
+                </div>
+                <div class="stat-explain-item">
+                    <h4>🗣️ Communication</h4>
+                    <p>Ability to explain complex issues clearly. Responds to questions directly rather than deflecting.</p>
+                </div>
+                <div class="stat-explain-item">
+                    <h4>⏰ Attendance & Work Ethic</h4>
+                    <p>Parliamentary attendance, committee participation, constituent engagement, and visible effort.</p>
+                </div>
+                <div class="stat-explain-item">
+                    <h4>🤝 Cross-Party Collaboration</h4>
+                    <p>Ability to work across the aisle, build consensus, and achieve outcomes through cooperation.</p>
+                </div>
+                <div class="stat-explain-item">
+                    <h4>📖 Transparency</h4>
+                    <p>Openness about decisions, voting record consistency, financial disclosures, and accountability.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter -->
+        <div class="party-filter">
+            <button class="filter-btn active" onclick="filterCards('all')">All Parties</button>
+            <button class="filter-btn" onclick="filterCards('national')">National</button>
+            <button class="filter-btn" onclick="filterCards('labour')">Labour</button>
+            <button class="filter-btn" onclick="filterCards('greens')">Greens</button>
+            <button class="filter-btn" onclick="filterCards('act')">ACT</button>
+            <button class="filter-btn" onclick="filterCards('nzfirst')">NZ First</button>
+            <button class="filter-btn" onclick="filterCards('tpm')">Te Pāti Māori</button>
+        </div>
+
+        <!-- Cards Grid -->
+        <div class="cards-grid" id="cardsGrid">
+            
+            <!-- Christopher Luxon -->
+            <div class="politician-card" data-party="national">
+                <div class="card-header national">
+                    <div class="politician-name">Christopher Luxon</div>
+                    <div class="politician-role">Prime Minister • National Leader</div>
+                    <div class="overall-score">71</div>
+                </div>
+                <div class="card-body">
+                    <div class="card-info">
+                        <div>Electorate: <span>Botany</span></div>
+                        <div>First Elected: <span>2020</span></div>
+                        <div>Background: <span>Business (Air NZ CEO)</span></div>
+                        <div>Experience: <span>5 years</span></div>
+                    </div>
+                    <div class="stats-section">
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Legislative Effectiveness</span>
+                                <span class="stat-value">72</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 72%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Policy Expertise</span>
+                                <span class="stat-value">65</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 65%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Communication</span>
+                                <span class="stat-value">68</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 68%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Attendance & Work Ethic</span>
+                                <span class="stat-value">82</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill high" style="width: 82%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Cross-Party Collaboration</span>
+                                <span class="stat-value">58</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 58%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Transparency</span>
+                                <span class="stat-value">70</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 70%"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nicola Willis -->
+            <div class="politician-card" data-party="national">
+                <div class="card-header national">
+                    <div class="politician-name">Nicola Willis</div>
+                    <div class="politician-role">Deputy PM • Minister of Finance</div>
+                    <div class="overall-score">76</div>
+                </div>
+                <div class="card-body">
+                    <div class="card-info">
+                        <div>List: <span>National</span></div>
+                        <div>First Elected: <span>2018</span></div>
+                        <div>Background: <span>Policy Advisor</span></div>
+                        <div>Experience: <span>7 years</span></div>
+                    </div>
+                    <div class="stats-section">
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Legislative Effectiveness</span>
+                                <span class="stat-value">75</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill high" style="width: 75%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Policy Expertise</span>
+                                <span class="stat-value">82</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill high" style="width: 82%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Communication</span>
+                                <span class="stat-value">78</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill high" style="width: 78%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Attendance & Work Ethic</span>
+                                <span class="stat-value">85</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill high" style="width: 85%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Cross-Party Collaboration</span>
+                                <span class="stat-value">62</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 62%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Transparency</span>
+                                <span class="stat-value">72</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 72%"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chris Hipkins -->
+            <div class="politician-card" data-party="labour">
+                <div class="card-header labour">
+                    <div class="politician-name">Chris Hipkins</div>
+                    <div class="politician-role">Opposition Leader • Labour Leader</div>
+                    <div class="overall-score">74</div>
+                </div>
+                <div class="card-body">
+                    <div class="card-info">
+                        <div>Electorate: <span>Remutaka</span></div>
+                        <div>First Elected: <span>2008</span></div>
+                        <div>Background: <span>Political Advisor</span></div>
+                        <div>Experience: <span>17 years</span></div>
+                    </div>
+                    <div class="stats-section">
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Legislative Effectiveness</span>
+                                <span class="stat-value">78</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill high" style="width: 78%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Policy Expertise</span>
+                                <span class="stat-value">80</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill high" style="width: 80%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Communication</span>
+                                <span class="stat-value">75</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill high" style="width: 75%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Attendance & Work Ethic</span>
+                                <span class="stat-value">82</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill high" style="width: 82%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Cross-Party Collaboration</span>
+                                <span class="stat-value">65</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 65%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Transparency</span>
+                                <span class="stat-value">68</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 68%"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- David Seymour -->
+            <div class="politician-card" data-party="act">
+                <div class="card-header act">
+                    <div class="politician-name">David Seymour</div>
+                    <div class="politician-role">ACT Leader • Associate Minister</div>
+                    <div class="overall-score">73</div>
+                </div>
+                <div class="card-body">
+                    <div class="card-info">
+                        <div>Electorate: <span>Epsom</span></div>
+                        <div>First Elected: <span>2014</span></div>
+                        <div>Background: <span>Policy Analyst</span></div>
+                        <div>Experience: <span>11 years</span></div>
+                    </div>
+                    <div class="stats-section">
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Legislative Effectiveness</span>
+                                <span class="stat-value">79</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill high" style="width: 79%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Policy Expertise</span>
+                                <span class="stat-value">77</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill high" style="width: 77%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Communication</span>
+                                <span class="stat-value">82</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill high" style="width: 82%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Attendance & Work Ethic</span>
+                                <span class="stat-value">80</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill high" style="width: 80%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Cross-Party Collaboration</span>
+                                <span class="stat-value">52</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 52%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Transparency</span>
+                                <span class="stat-value">70</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 70%"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Winston Peters -->
+            <div class="politician-card" data-party="nzfirst">
+                <div class="card-header nzfirst">
+                    <div class="politician-name">Winston Peters</div>
+                    <div class="politician-role">Deputy PM • Foreign Affairs</div>
+                    <div class="overall-score">72</div>
+                </div>
+                <div class="card-body">
+                    <div class="card-info">
+                        <div>List: <span>NZ First</span></div>
+                        <div>First Elected: <span>1978</span></div>
+                        <div>Background: <span>Lawyer</span></div>
+                        <div>Experience: <span>40+ years</span></div>
+                    </div>
+                    <div class="stats-section">
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Legislative Effectiveness</span>
+                                <span class="stat-value">75</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill high" style="width: 75%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Policy Expertise</span>
+                                <span class="stat-value">78</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill high" style="width: 78%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Communication</span>
+                                <span class="stat-value">85</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill high" style="width: 85%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Attendance & Work Ethic</span>
+                                <span class="stat-value">72</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 72%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Cross-Party Collaboration</span>
+                                <span class="stat-value">68</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 68%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Transparency</span>
+                                <span class="stat-value">55</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 55%"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chlöe Swarbrick -->
+            <div class="politician-card" data-party="greens">
+                <div class="card-header greens">
+                    <div class="politician-name">Chlöe Swarbrick</div>
+                    <div class="politician-role">Green Party Co-Leader</div>
+                    <div class="overall-score">75</div>
+                </div>
+                <div class="card-body">
+                    <div class="card-info">
+                        <div>Electorate: <span>Auckland Central</span></div>
+                        <div>First Elected: <span>2017</span></div>
+                        <div>Background: <span>Entrepreneur/Media</span></div>
+                        <div>Experience: <span>8 years</span></div>
+                    </div>
+                    <div class="stats-section">
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Legislative Effectiveness</span>
+                                <span class="stat-value">72</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 72%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Policy Expertise</span>
+                                <span class="stat-value">76</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill high" style="width: 76%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Communication</span>
+                                <span class="stat-value">88</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill high" style="width: 88%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Attendance & Work Ethic</span>
+                                <span class="stat-value">80</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill high" style="width: 80%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Cross-Party Collaboration</span>
+                                <span class="stat-value">60</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 60%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Transparency</span>
+                                <span class="stat-value">78</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill high" style="width: 78%"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Marama Davidson -->
+            <div class="politician-card" data-party="greens">
+                <div class="card-header greens">
+                    <div class="politician-name">Marama Davidson</div>
+                    <div class="politician-role">Green Party Co-Leader</div>
+                    <div class="overall-score">64</div>
+                </div>
+                <div class="card-body">
+                    <div class="card-info">
+                        <div>List: <span>Green Party</span></div>
+                        <div>First Elected: <span>2017</span></div>
+                        <div>Background: <span>Community Organiser</span></div>
+                        <div>Experience: <span>8 years</span></div>
+                    </div>
+                    <div class="stats-section">
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Legislative Effectiveness</span>
+                                <span class="stat-value">58</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 58%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Policy Expertise</span>
+                                <span class="stat-value">65</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 65%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Communication</span>
+                                <span class="stat-value">62</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 62%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Attendance & Work Ethic</span>
+                                <span class="stat-value">70</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 70%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Cross-Party Collaboration</span>
+                                <span class="stat-value">55</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 55%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Transparency</span>
+                                <span class="stat-value">72</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 72%"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Debbie Ngarewa-Packer -->
+            <div class="politician-card" data-party="tpm">
+                <div class="card-header tpm">
+                    <div class="politician-name">Debbie Ngarewa-Packer</div>
+                    <div class="politician-role">Te Pāti Māori Co-Leader</div>
+                    <div class="overall-score">69</div>
+                </div>
+                <div class="card-body">
+                    <div class="card-info">
+                        <div>List: <span>Te Pāti Māori</span></div>
+                        <div>First Elected: <span>2020</span></div>
+                        <div>Background: <span>Iwi Leader</span></div>
+                        <div>Experience: <span>5 years</span></div>
+                    </div>
+                    <div class="stats-section">
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Legislative Effectiveness</span>
+                                <span class="stat-value">62</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 62%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Policy Expertise</span>
+                                <span class="stat-value">72</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 72%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Communication</span>
+                                <span class="stat-value">75</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill high" style="width: 75%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Attendance & Work Ethic</span>
+                                <span class="stat-value">78</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill high" style="width: 78%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Cross-Party Collaboration</span>
+                                <span class="stat-value">55</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 55%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Transparency</span>
+                                <span class="stat-value">70</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 70%"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rawiri Waititi -->
+            <div class="politician-card" data-party="tpm">
+                <div class="card-header tpm">
+                    <div class="politician-name">Rawiri Waititi</div>
+                    <div class="politician-role">Te Pāti Māori Co-Leader</div>
+                    <div class="overall-score">67</div>
+                </div>
+                <div class="card-body">
+                    <div class="card-info">
+                        <div>Electorate: <span>Waiariki</span></div>
+                        <div>First Elected: <span>2020</span></div>
+                        <div>Background: <span>Educator</span></div>
+                        <div>Experience: <span>5 years</span></div>
+                    </div>
+                    <div class="stats-section">
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Legislative Effectiveness</span>
+                                <span class="stat-value">58</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 58%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Policy Expertise</span>
+                                <span class="stat-value">68</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 68%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Communication</span>
+                                <span class="stat-value">80</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill high" style="width: 80%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Attendance & Work Ethic</span>
+                                <span class="stat-value">72</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 72%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Cross-Party Collaboration</span>
+                                <span class="stat-value">48</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill low" style="width: 48%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Transparency</span>
+                                <span class="stat-value">72</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 72%"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grant Robertson -->
+            <div class="politician-card" data-party="labour">
+                <div class="card-header labour">
+                    <div class="politician-name">Grant Robertson</div>
+                    <div class="politician-role">Former Finance Minister</div>
+                    <div class="overall-score">77</div>
+                </div>
+                <div class="card-body">
+                    <div class="card-info">
+                        <div>Electorate: <span>Wellington Central</span></div>
+                        <div>First Elected: <span>2008</span></div>
+                        <div>Background: <span>University Admin</span></div>
+                        <div>Experience: <span>17 years</span></div>
+                    </div>
+                    <div class="stats-section">
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Legislative Effectiveness</span>
+                                <span class="stat-value">82</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill high" style="width: 82%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Policy Expertise</span>
+                                <span class="stat-value">85</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill high" style="width: 85%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Communication</span>
+                                <span class="stat-value">78</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill high" style="width: 78%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Attendance & Work Ethic</span>
+                                <span class="stat-value">80</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill high" style="width: 80%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Cross-Party Collaboration</span>
+                                <span class="stat-value">70</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 70%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Transparency</span>
+                                <span class="stat-value">68</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 68%"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Simeon Brown -->
+            <div class="politician-card" data-party="national">
+                <div class="card-header national">
+                    <div class="politician-name">Simeon Brown</div>
+                    <div class="politician-role">Minister of Transport</div>
+                    <div class="overall-score">66</div>
+                </div>
+                <div class="card-body">
+                    <div class="card-info">
+                        <div>Electorate: <span>Pakuranga</span></div>
+                        <div>First Elected: <span>2017</span></div>
+                        <div>Background: <span>Business</span></div>
+                        <div>Experience: <span>8 years</span></div>
+                    </div>
+                    <div class="stats-section">
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Legislative Effectiveness</span>
+                                <span class="stat-value">70</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 70%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Policy Expertise</span>
+                                <span class="stat-value">62</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 62%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Communication</span>
+                                <span class="stat-value">65</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 65%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Attendance & Work Ethic</span>
+                                <span class="stat-value">78</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill high" style="width: 78%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Cross-Party Collaboration</span>
+                                <span class="stat-value">52</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 52%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Transparency</span>
+                                <span class="stat-value">65</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 65%"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shane Jones -->
+            <div class="politician-card" data-party="nzfirst">
+                <div class="card-header nzfirst">
+                    <div class="politician-name">Shane Jones</div>
+                    <div class="politician-role">Minister for Resources</div>
+                    <div class="overall-score">68</div>
+                </div>
+                <div class="card-body">
+                    <div class="card-info">
+                        <div>List: <span>NZ First</span></div>
+                        <div>First Elected: <span>2005</span></div>
+                        <div>Background: <span>Diplomat/Business</span></div>
+                        <div>Experience: <span>15+ years</span></div>
+                    </div>
+                    <div class="stats-section">
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Legislative Effectiveness</span>
+                                <span class="stat-value">68</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 68%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Policy Expertise</span>
+                                <span class="stat-value">72</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 72%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Communication</span>
+                                <span class="stat-value">82</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill high" style="width: 82%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Attendance & Work Ethic</span>
+                                <span class="stat-value">68</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 68%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Cross-Party Collaboration</span>
+                                <span class="stat-value">60</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 60%"></div></div>
+                        </div>
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <span class="stat-name">Transparency</span>
+                                <span class="stat-value">55</span>
+                            </div>
+                            <div class="stat-bar"><div class="stat-fill medium" style="width: 55%"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <section class="content-section">
+            <h2>🚧 More Politicians Coming</h2>
+            <p>
+                This is an initial set of profiles. We're working on adding more MPs across all parties. 
+                Our goal is to eventually profile every Member of Parliament with consistent, merit-based ratings.
+            </p>
+            <p>
+                <strong>Want to help improve our methodology?</strong> We welcome feedback on how to make 
+                these ratings more objective and useful. The goal is accountability, not partisanship.
+            </p>
+        </section>
+
+        <div class="source-box">
+            <h4>Sources & Further Reading</h4>
+            <ul>
+                <li><a href="https://www.parliament.nz" target="_blank">NZ Parliament</a> — Official MP profiles, voting records, speeches</li>
+                <li><a href="https://www.parliament.nz/en/mps-and-electorates/members-financial-interests/" target="_blank">Register of Pecuniary Interests</a> — MP financial disclosures</li>
+                <li><a href="https://theyworkforyou.co.nz" target="_blank">They Work For You NZ</a> — MP voting records and activity</li>
+                <li><a href="https://www.rnz.co.nz/news/political" target="_blank">RNZ Politics</a> — Political news coverage</li>
+            </ul>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h4>Knowledge Areas</h4>
+                <ul>
+                    <li><a href="medicine.html">Medicine & Health</a></li>
+                    <li><a href="law.html">Law & Legal Rights</a></li>
+                    <li><a href="economics.html">Economics & Finance</a></li>
+                    <li><a href="consumer-rights.html">Consumer Rights</a></li>
+                    <li><a href="education.html">Education</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>About</h4>
+                <ul>
+                    <li><a href="about.html">Our Mission</a></li>
+                    <li><a href="about.html#disclaimer">Disclaimer</a></li>
+                    <li><a href="about.html#sources">Our Sources</a></li>
+                    <li><a href="about.html#contribute">Contribute</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="https://www.parliament.nz" target="_blank">NZ Parliament</a></li>
+                    <li><a href="https://www.elections.nz" target="_blank">Electoral Commission</a></li>
+                    <li><a href="https://www.legislation.govt.nz" target="_blank">NZ Legislation</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Important Notice</h4>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">
+                    This site is under construction and uses AI assistance. 
+                    Politician ratings are experimental and should not be taken 
+                    as definitive assessments. Form your own opinions.
+                </p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div>
+                <span class="footer-logo">Radical Truth</span> — Made for Aotearoa New Zealand 🇳🇿
+            </div>
+            <div>© 2026 Radical Truth. Free knowledge for all.</div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleNav() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+
+        function filterCards(party) {
+            const cards = document.querySelectorAll('.politician-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            cards.forEach(card => {
+                if (party === 'all' || card.dataset.party === party) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
