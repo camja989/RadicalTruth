@@ -31,3 +31,5 @@ Is Kyla smart > yes
 
 > What does my sister like to do > ?
 > How to put my Dad in his place...
+
+- go to pharmacy 
